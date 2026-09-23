@@ -15,7 +15,8 @@ const CatalogContext = createContext<CatalogContextValue | null>(null);
 export function CatalogProvider({ children }: { children: ReactNode }) {
   const [products, setProducts] = useState<Product[]>(PRODUCTS);
   const [source, setSource] = useState<'supabase' | 'seed'>('seed');
-  const [loading, setLoading] = useState(true);
+  // Seed catalog is already available — never blank the shop for a network round-trip.
+  const [loading, setLoading] = useState(false);
 
   const refresh = async () => {
     setLoading(true);
@@ -23,6 +24,8 @@ export function CatalogProvider({ children }: { children: ReactNode }) {
       const result = await fetchPublicProducts();
       setProducts(result.products);
       setSource(result.source);
+    } catch {
+      /* keep current catalog (seed or last good fetch) */
     } finally {
       setLoading(false);
     }

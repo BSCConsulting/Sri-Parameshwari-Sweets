@@ -8,8 +8,8 @@ export const CONTACT = {
   instagramHandle: '@sri_parameshwari_sweets',
   rating: '4.5',
   timings: 'Open Daily 6:30 AM – 10:15 PM',
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Madhira+Telangana+507203',
-  mapsEmbed: 'https://www.google.com/maps?q=Madhira,Khammam,Telangana+507203&output=embed',
+  mapsUrl: 'https://www.google.com/maps?q=16.9185278,80.3621667',
+  mapsEmbed: 'https://www.google.com/maps?q=16.9185278,80.3621667&z=17&output=embed',
 };
 
 export const CATEGORIES: { key: Category; label: string }[] = [
@@ -189,7 +189,7 @@ export const FAQS: FAQ[] = [
   { id: 22, category: 'Catering', question: 'Can we request a tasting sample before confirming a large wedding order?', answer: 'Yes, you can visit our Madhira store anytime to taste sample batches of our signature sweets.' },
   { id: 23, category: 'Catering', question: 'Do you supply corporate Diwali or New Year gift boxes?', answer: 'Yes, we provide corporate sweet and dry-fruit gift hampers with custom branding options.' },
   { id: 24, category: 'Catering', question: 'Can we hire your sweet master chefs for live on-site sweet making?', answer: 'For major local events and weddings, on-site live hot jalebi/sweet counters can be arranged upon prior agreement.' },
-  { id: 25, category: 'Timings', question: 'Where is Sri Parameswari Sweets located?', answer: 'We are conveniently located in Madhira, Khammam District, Telangana 507203. You can click the "Get Directions" link on this site to open Google Maps.' },
+  { id: 25, category: 'Timings', question: 'Where is Sri Parameswari Sweets located?', answer: 'We are in Madhira, Khammam District, Telangana 507203 (16°55\'06.7"N 80°21\'43.8"E). Use the “Get Directions” link on this site to open the exact pin on Google Maps.' },
   { id: 26, category: 'Timings', question: 'What are the daily store timings?', answer: 'We are open 7 days a week from 6:30 AM in the morning to 10:15 PM at night.' },
   { id: 27, category: 'Timings', question: 'Are you open during festival holidays?', answer: 'Yes, we are fully open with extended morning hours during Sankranti, Ugadi, Vinayaka Chavithi, Dasara, and Diwali.' },
   { id: 28, category: 'Timings', question: 'What are the peak busy hours at the shop?', answer: 'Mornings between 8:00 AM – 11:00 AM and evenings between 5:30 PM – 9:00 PM are usually the busiest.' },

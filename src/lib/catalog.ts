@@ -54,16 +54,27 @@ export function productToRow(p: Product, sortOrder = 0, active = true): Omit<Pro
   };
 }
 
-/** Public catalog: active rows from Supabase, or seed catalog if offline / empty. */
+/** Public catalog: active rows from Supabase, or seed catalog if offline / empty / slow. */
 export async function fetchPublicProducts(): Promise<{ products: Product[]; source: 'supabase' | 'seed' }> {
   if (!supabase) return { products: PRODUCTS, source: 'seed' };
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('active', true)
-    .order('sort_order', { ascending: true });
-  if (error || !data?.length) return { products: PRODUCTS, source: 'seed' };
-  return { products: (data as ProductRow[]).map(rowToProduct), source: 'supabase' };
+  try {
+    const query = supabase
+      .from('products')
+      .select('*')
+      .eq('active', true)
+      .order('sort_order', { ascending: true });
+    // ponytail: 8s ceiling — hangs shouldn't blank the shop; drop timeout when we add a health UI
+    const { data, error } = await Promise.race([
+      query,
+      new Promise<never>((_, reject) => {
+        setTimeout(() => reject(new Error('catalog fetch timeout')), 8000);
+      }),
+    ]);
+    if (error || !data?.length) return { products: PRODUCTS, source: 'seed' };
+    return { products: (data as ProductRow[]).map(rowToProduct), source: 'supabase' };
+  } catch {
+    return { products: PRODUCTS, source: 'seed' };
+  }
 }
 
 /** Admin: every row including inactive. */

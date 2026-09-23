@@ -41,3 +41,10 @@ test('empty FAQ search does not leave a dangling colon', () => {
   assert.doesNotMatch(decodeURIComponent(buildWhatsAppSearchUrl('  ')), /:\s*$/);
   assert.match(decodeURIComponent(buildWhatsAppSearchUrl('parcel')), /: parcel$/);
 });
+
+test('shop pin uses the Madhira store coordinates', async () => {
+  const { CONTACT } = await import('./data.ts');
+  assert.match(CONTACT.mapsUrl, /16\.9185278/);
+  assert.match(CONTACT.mapsUrl, /80\.3621667/);
+  assert.match(CONTACT.mapsEmbed, /16\.9185278.*80\.3621667/);
+});

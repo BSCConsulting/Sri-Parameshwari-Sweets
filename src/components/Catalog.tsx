@@ -75,11 +75,11 @@ export default function Catalog() {
           ))}
         </div>
 
-        {/* Products Grid */}
-        {loading ? (
-          <p className="text-center text-ink-500 py-16">Loading catalog…</p>
-        ) : filtered.length === 0 ? (
-          <p className="text-center text-ink-500 py-16">No items match your search. Try a different keyword.</p>
+        {/* Products Grid — keep seed/live products visible while Supabase refresh runs */}
+        {filtered.length === 0 ? (
+          <p className="text-center text-ink-500 py-16">
+            {loading ? 'Loading catalog…' : 'No items match your search. Try a different keyword.'}
+          </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {filtered.map((product) => (
