@@ -1,6 +1,6 @@
 -- Run once in Supabase → SQL Editor (free project at https://supabase.com)
 -- Then: Authentication → Users → Add user (email + password) = your admin login
--- Then: Storage → New bucket → name "product-images" → Public bucket ON
+-- Then: Storage → New bucket → name "project-images" → Public bucket ON
 
 create table if not exists products (
   id text primary key,
@@ -51,27 +51,26 @@ create policy "Auth delete products"
   to authenticated
   using (true);
 
--- Storage policies for product-images bucket (create the bucket in the UI first)
--- Allow public read of images
+-- Storage policies for project-images bucket (create the bucket in the UI first)
 drop policy if exists "Public read product images" on storage.objects;
 create policy "Public read product images"
   on storage.objects for select
-  using (bucket_id = 'product-images');
+  using (bucket_id = 'project-images');
 
 drop policy if exists "Auth upload product images" on storage.objects;
 create policy "Auth upload product images"
   on storage.objects for insert
   to authenticated
-  with check (bucket_id = 'product-images');
+  with check (bucket_id = 'project-images');
 
 drop policy if exists "Auth update product images" on storage.objects;
 create policy "Auth update product images"
   on storage.objects for update
   to authenticated
-  using (bucket_id = 'product-images');
+  using (bucket_id = 'project-images');
 
 drop policy if exists "Auth delete product images" on storage.objects;
 create policy "Auth delete product images"
   on storage.objects for delete
   to authenticated
-  using (bucket_id = 'product-images');
+  using (bucket_id = 'project-images');

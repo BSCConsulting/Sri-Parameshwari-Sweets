@@ -25,7 +25,8 @@ We use **Supabase** (free tier): login, product table, photo storage. The public
 ### 2. Create the database + storage rules
 1. Supabase → **SQL Editor** → New query  
 2. Paste everything from `supabase/schema.sql` → Run  
-3. **Storage** → New bucket → name: `product-images` → turn **Public** ON  
+3. **Storage** → New bucket → name: `project-images` → turn **Public** ON  
+   (If Policies shows `0`, re-run the storage policy section at the bottom of `supabase/schema.sql`)  
 
 ### 3. Create your admin login
 1. **Authentication** → **Users** → Add user  

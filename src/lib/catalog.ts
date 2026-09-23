@@ -104,12 +104,13 @@ export async function uploadProductImage(productId: string, file: File): Promise
   if (!supabase) throw new Error('Supabase is not configured');
   const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
   const path = `${productId}/${Date.now()}.${ext}`;
-  const { error } = await supabase.storage.from('product-images').upload(path, file, {
+  // Bucket name matches Supabase Storage UI (`project-images`, public).
+  const { error } = await supabase.storage.from('project-images').upload(path, file, {
     cacheControl: '3600',
     upsert: true,
   });
   if (error) throw error;
-  const { data } = supabase.storage.from('product-images').getPublicUrl(path);
+  const { data } = supabase.storage.from('project-images').getPublicUrl(path);
   return data.publicUrl;
 }
 
