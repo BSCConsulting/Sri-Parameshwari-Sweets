@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 import type { CartItem, Product, Weight } from './types';
 import { parseStoredCart, toCartItem } from './utils';
+import { useCatalog } from './CatalogContext';
 
 interface CartContextValue {
   items: CartItem[];
@@ -19,25 +20,30 @@ const CartContext = createContext<CartContextValue | null>(null);
 
 const STORAGE_KEY = 'sps-cart';
 
-function loadCart(): CartItem[] {
-  try {
-    return parseStoredCart(localStorage.getItem(STORAGE_KEY));
-  } catch {
-    return []; // storage access itself can throw (disabled cookies / private mode)
-  }
-}
-
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(loadCart);
+  const { products } = useCatalog();
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [ready, setReady] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
+  // Rehydrate / refresh prices whenever the live catalog changes (seed → Supabase, or admin edits).
   useEffect(() => {
+    try {
+      setItems(parseStoredCart(localStorage.getItem(STORAGE_KEY), products));
+    } catch {
+      setItems([]);
+    }
+    setReady(true);
+  }, [products]);
+
+  useEffect(() => {
+    if (!ready) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
     } catch {
-      /* storage unavailable (private mode / quota): cart still works for this session */
+      /* storage unavailable */
     }
-  }, [items]);
+  }, [items, ready]);
 
   const openCart = useCallback(() => setIsOpen(true), []);
   const closeCart = useCallback(() => setIsOpen(false), []);

@@ -15,12 +15,12 @@ export function toCartItem(product: Product, weight: Weight, quantity: number): 
 }
 
 /** Rebuild a saved cart from the live catalog so it never carries stale prices or removed products. */
-export function parseStoredCart(raw: string | null): CartItem[] {
+export function parseStoredCart(raw: string | null, catalog: Product[] = PRODUCTS): CartItem[] {
   try {
     const parsed: unknown = JSON.parse(raw ?? '[]');
     if (!Array.isArray(parsed)) return [];
     return parsed.flatMap((entry: Partial<CartItem>) => {
-      const product = PRODUCTS.find((p) => p.id === entry.productId);
+      const product = catalog.find((p) => p.id === entry.productId);
       const qty = Number(entry.quantity);
       if (!product || !entry.weight || !(entry.weight in product.prices) || !Number.isInteger(qty) || qty <= 0) return [];
       return [toCartItem(product, entry.weight, qty)];

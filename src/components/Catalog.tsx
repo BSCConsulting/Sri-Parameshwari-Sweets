@@ -1,15 +1,17 @@
 import { useState, useMemo } from 'react';
 import { Search } from 'lucide-react';
-import { PRODUCTS, CATEGORIES } from '../data';
+import { CATEGORIES } from '../data';
 import type { Category } from '../types';
 import ProductCard from './ProductCard';
+import { useCatalog } from '../CatalogContext';
 
 export default function Catalog() {
+  const { products, loading } = useCatalog();
   const [active, setActive] = useState<Category>('all');
   const [search, setSearch] = useState('');
 
   const filtered = useMemo(() => {
-    let list = PRODUCTS;
+    let list = products;
     if (active !== 'all') {
       list = list.filter((p) => p.category === active);
     }
@@ -24,7 +26,7 @@ export default function Catalog() {
       );
     }
     return list;
-  }, [active, search]);
+  }, [active, search, products]);
 
   return (
     <section id="catalog" className="py-16 sm:py-24 bg-cream-50">
@@ -74,7 +76,9 @@ export default function Catalog() {
         </div>
 
         {/* Products Grid */}
-        {filtered.length === 0 ? (
+        {loading ? (
+          <p className="text-center text-ink-500 py-16">Loading catalog…</p>
+        ) : filtered.length === 0 ? (
           <p className="text-center text-ink-500 py-16">No items match your search. Try a different keyword.</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">

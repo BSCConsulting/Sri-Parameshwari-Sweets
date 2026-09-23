@@ -1,4 +1,4 @@
-import { Phone, MessageCircle, Instagram, MapPin, Clock, Star, Quote } from 'lucide-react';
+import { Phone, MessageCircle, Instagram, MapPin, Clock, Star, Quote, Shield } from 'lucide-react';
 import { CONTACT } from '../data';
 
 // ponytail: illustrative testimonials written for launch; swap in real customer quotes when available.
@@ -168,9 +168,19 @@ export default function Footer() {
               <p className="text-[10px] text-cream-300">Heritage Since 1977 • Madhira, Telangana</p>
             </div>
           </div>
-          <p className="text-xs text-cream-300 text-center sm:text-right">
-            © 1977–2026 Sri Parameswari Sweets. All rights reserved.
-          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+            <p className="text-xs text-cream-300 text-center sm:text-right">
+              © 1977–2026 Sri Parameswari Sweets. All rights reserved.
+            </p>
+            <a
+              href="/admin"
+              className="inline-flex items-center gap-1.5 text-[11px] text-cream-300/70 hover:text-gold-300 transition-colors"
+              title="Staff login — manage catalog & prices"
+            >
+              <Shield className="w-3.5 h-3.5" />
+              Admin
+            </a>
+          </div>
         </div>
       </div>
     </footer>
